@@ -2,8 +2,33 @@
 
 {% block body %}
 <div class="jumbotron">
-    <h1 class="display-4">ABOUT PAGE</h1>
+    <h1 class="display-4">ARTICLES PAGE</h1>
     <p class="lead">This Application is build using by python and Flask Framework</p>
     <hr class="my-4">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">title</th>
+          <th scope="col">description</th>
+          <th scope="col">author</th>
+          <th scope="col">date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in [1,2,3,4,5] %}
+        <tr>
+          <th scope="row">{{a}}</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+          <td>Otto</td>          
+        </tr>
+          {% endfor %}
+       
+          
+      </tbody>
+    </table>  
+  
     <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
 {% endblock %}
