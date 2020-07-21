@@ -31,10 +31,15 @@ def show_image():
 @app.route('/article/<string:id>')
 def article(id):
     print(id)
-    return render_template('article.html')
+    articles = Articles()
+    print(articles)
+    # return render_template('article.html',data = [articles,id])
+    return "Success"
 
 
 
 if __name__ == "__main__":
     # app.run(host = '0.0.0.0',port='8080')
     app.run()
+
+    
