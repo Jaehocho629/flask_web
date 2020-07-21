@@ -28,13 +28,13 @@ def articles():
 def show_image():
     return render_template('image.html')
 
-@app.route('/article/<string:id>')
+@app.route('/article/<id>')
 def article(id):
     print(id)
-    articles = Articles()
+    articles = Articles()[id-1]
     print(articles)
-    # return render_template('article.html',data = [articles,id])
-    return "Success"
+    return render_template('article.html',data = [articles,id])
+    # return "Success"
 
 
 
