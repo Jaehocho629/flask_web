@@ -13,35 +13,21 @@
             <div class="col-md-6 col-lg-5">
                 <div class="login-box bg-white box-shadow border-radius-10">
                     <div class="login-title">
-                        <h2 class="text-center text-primary">Sign Up </h2>
+                        <h2 class="text-center text-primary">Sign in </h2>
                     </div>
-                    <form method="POST" action="/register" onsubmit="return confirm('회원가입 하시겠습니까?')">
+                    <form method="POST" action="/login" onsubmit="return confirm(' 로그인 하시겠습니까?')">
                         <div class="select-role">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             </div>
                         </div>
                         <div class="input-group custom">
-                            <input type="text" class="form-control form-control-lg" name = 'name' placeholder="name" required>
+                            <input type="text" class="form-control form-control-lg" name = 'email' placeholder="enter your email" required>
                             <div class="input-group-append custom">
                                 <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
                             </div>
-                            <input type="text" class="form-control form-control-lg" name = 'username' placeholder="Username"required>
-                            <div class="input-group-append custom">
-                                <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
-                            </div>
-                        </div>
-                        <div class="input-group custom">
-                            <input type="text" class="form-control form-control-lg" name = 'email' placeholder="E-mail"required>
-                            <div class="input-group-append custom">
-                                <span class="input-group-text"><i class="icon-copy dw dw-email"></i></span>
-                            </div>
-                        </div>
-                        <div class="input-group custom">
-                            <input type="password" class="form-control form-control-lg" name = 'password' placeholder="**********"required>
-                            <div class="input-group-append custom">
-                                <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
-                            </div>
-                        </div>
+                            
+                        
+                        
                         <div class="input-group custom">
                             <input type="password" class="form-control form-control-lg" name = 're_password' placeholder="**********"required>
                             <div class="input-group-append custom">
@@ -59,7 +45,7 @@
                                 </div>
                                 <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
                                 <div class="input-group mb-0">
-                                    <a class="btn btn-outline-primary btn-lg btn-block" href="/login">Sign In</a>
+                                    <a class="btn btn-outline-primary btn-lg btn-block" href="/register">Sign Up</a>
                                 </div>
                             </div>
                         </div>
