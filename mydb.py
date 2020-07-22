@@ -46,23 +46,35 @@ sql_1 = 'SELECT * FROM users;'
 # users = cursor.fetchall()
 # print(users)
 
-# name = 'SONG'
-# email = '5@naver.com'
-# username = 'SONG'
-# password = '1234'
+name = 'SONG'
+email = '5@naver.com'
+username = 'SONG'
+password = '1234'
 
-# sql_3 = '''
-#            INSERT INTO users(name,email,username,password) 
-#            VALUES ( %s, %s, %s, %s);
-#            '''
+sql_3 = '''
+           INSERT INTO users(name,email,username,password) 
+           VALUES ( %s, %s, %s, %s);
+           '''
 # cursor.execute(sql_3, (name,email,username,password))
 # db.commit()
 # db.close()
 
-name = 'GANGNAM'
-email = '6@naver.com'
-username = 'GANGNAM'
-password = '1234'
+
+title='javascript'
+body='프로토타입기반의 객체지향 프로그래밍 언어로, 스크립트 언어에 해당된다. 특수한 목적이 아닌 이상 모든 웹 브라우저에 인터프리터가 내장되어 있다. 오늘날 HTML, CSS와 함께 웹을 구성하는 요소 중 하나다.'
+author='gary'
+sql_7 = '''
+           INSERT INTO topic(title, body, author) 
+           VALUES ( %s, %s, %s);
+           '''
+# cursor.execute(sql_7,(title,body,author))
+# db.commit()
+# db.close()
+
+# name = 'GANGNAM'
+# email = '6@naver.com'
+# username = 'GANGNAM'
+# password = '1234'
 
 sql_4 = '''
            INSERT INTO users(name,email,username,password) 
@@ -83,7 +95,20 @@ sql_4 = '''
 # db.commit()
 # db.close
 
-sql_7 = 'UPDATE "users" SET "name"="PARK" WHERE "id" =5;'
-cursor.execute(sql_7)
+# sql_8 = 'SELECT * FROM topic;'
+
+# cursor.execute(sql_8)
+# topics = cursor.fetchall()
+# print(topics)
+
+
+title='python'
+body='python'
+author='cho'
+sql_9 = '''
+           INSERT INTO topic(title, body, author) 
+           VALUES ( %s, %s, %s);
+           '''
+cursor.execute(sql_9,(title,body,author))
 db.commit()
 db.close()
