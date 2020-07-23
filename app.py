@@ -56,23 +56,20 @@ def register():
         if(pbkdf2_sha256.verify(re_password, password)):
             print(pbkdf2_sha256.verify(re_password, password))
             cursor = db.cursor()
-            
-                       
+                                   
             sql = ''' 
                 INSERT INTO users(name, email, username, password)
                 VALUES( %s, %s, %s, %s)
             '''
-            cursor.execute(sql, (name,email,username,password))
+            cursor.execute(sql,(name,email,username,password))
             db.commit()
       
-
             # cursor = db.cursor()
             # cursor.execute('SELECT * FROM users;')
             # users = cursor.fetchall()
             
-            return "register Success"
+            return redirect(url_for('login'))
             
-
         else:                
                return "Invalid password"
 
@@ -84,7 +81,7 @@ def login():
     if request.method == 'POST':
         id = request.form.get('email')
         pw = request.form.get('password')
-        # print([id,pw])
+        print([id])
 
         sql = 'SELECT * FROM users WHERE email = %s'
         cursor = db.cursor()
@@ -100,17 +97,21 @@ def login():
             else:
                 return redirect(url_for('login'))
         
-        # return "Success"
+        
     else:
         return render_template('login.html')
 
-@app.route('/articles' , methods=['GET','POST'])
+@app.route('/articles' )
 def articles():
-    print("Success")
-    # return "TEST"
-    articles = Articles()
-    print(len(articles))
+    # articles = Articles()
+    # print(len(articles))
+    cursor = db.cursor()
+    sql='''SELECT * FROM topic;'''
+    cursor.execute(sql)
+    articles = cursor.fetchall()
+    print(articles)
     return render_template('articles.html',articles=articles)
+    # return "GET SUCCESS"
 
 @app.route('/test')
 def show_image():
@@ -118,14 +119,31 @@ def show_image():
 
 @app.route('/article/<int:id>')
 def article(id):
-    print(id)
+    print(type(id))
     articles = Articles()[id-1]
-    print(articles)
+    # print(articles)
     return render_template('article.html',data = articles)
     # return "Success"
 
-
-
+@app.route('/add_articles', methods=['GET','POST'])
+def add_articles():
+    if request.method == 'POST' : 
+        # print(request.form['title'])
+        title = request.form['title']
+        body = request.form['body']
+        author = request.form['author']
+        cursor = db.cursor()
+        sql = '''
+            INSERT INTO topic (title, body, author)
+            VALUES (%s, %s, %s)
+        '''
+        cursor.execute(sql,(title, body, author))
+        db.commit()
+        
+        return redirect("/articles")
+    else:
+        return render_template('add_articles.html')
+    db.close()
 if __name__ == "__main__":
     # app.run(host = '0.0.0.0',port='8080')
     app.run()
