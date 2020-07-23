@@ -119,12 +119,15 @@ def show_image():
 
 @app.route('/article/<int:id>')
 def article(id):
-    print(type(id))
-    articles = Articles()[id-1]
-    # print(articles)
-    return render_template('article.html',data = articles)
-    # return "Success"
-
+    # print(type(id))
+    # articles = Articles()[id-1]
+    cursor = db.cursor()
+    sql = 'SELECT * FROM topic WHERE id=%s;'
+    cursor.execute(sql,[id])
+    topic = cursor.fetchone()
+    print(topic)
+    return render_template('article.html',data = topic)
+    
 @app.route('/add_articles', methods=['GET','POST'])
 def add_articles():
     if request.method == 'POST' : 
@@ -144,8 +147,38 @@ def add_articles():
     else:
         return render_template('add_articles.html')
     db.close()
+
+@app.route('/article/<string:id>/edit_article',methods=['GET','POST'])
+    
+def edit_article(id):
+    if request.method == "POST":
+        title = request.form['title']
+        body = request.form['body']
+        author = request.form['author']
+        cur = db.cursor()
+        sql = '''
+            UPDATE `topic` SET `title`=%s, `body`=%s, `author`=%s WHERE  `id`=%s;
+        '''
+        cur.execute(sql, (title, body, author, id))
+        db.commit()
+        return redirect(url_for('articles'))
+    else:
+        print(id)
+        cur = db.cursor()
+        sql = 'SELECT * FROM topic WHERE id=%s'
+        cur.execute(sql , [id])
+        topic = cur.fetchone()
+        return render_template('edit_article.html',data=topic)
+    db.close()
+@app.route('/delete/<string:id>', methods = ['POST'])
+def delete(id):
+    cursor = db.cursor()
+    sql = 'DELETE FROM topic WHERE id=%s'
+    cursor.execute(sql,[id])
+    db.commit()
+    
+    return redirect(url_for('articles'))
+
 if __name__ == "__main__":
     # app.run(host = '0.0.0.0',port='8080')
     app.run()
-
-    
