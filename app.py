@@ -3,7 +3,7 @@ from flask import Flask ,render_template , flash, redirect,url_for,session,reque
 import pymysql 
 from passlib.hash import pbkdf2_sha256
 from data import Articles
-
+from functools import wraps
 
 app = Flask(__name__)
 app.debug=True
@@ -29,19 +29,18 @@ cursor = db.cursor()
 # print(users)
 # print(result)
 
-@app.route('/')
-def index():
-    print("Success")
-    # return "TEST"
-    return render_template('home.html',hello="jhch")
-
-@app.route('/about')
-def about():
-    print("Success")
-    # return "TEST"
-    return render_template('about.html',hello="jhch")
+def is_logged_out(f):
+    @wraps(f)
+    def wraper(*args, **kwargs):
+        if 'is_logged' in session:
+        # if is session['is_logged']:
+            return redirect(url_for('articles'))
+        else:
+            return f(*args, **kwargs)
+    return wraper
 
 @app.route('/register',methods=['GET','POST'])
+@is_logged_out
 def register():
     if request.method =='POST':
         
@@ -77,6 +76,7 @@ def register():
     else:
         return render_template('register.html')
 @app.route('/login',methods=['GET', 'POST'])
+# @is_logged_out
 def login():
     if request.method == 'POST':
         id = request.form.get('email')
@@ -93,6 +93,9 @@ def login():
             return redirect(url_for('login'))
         else:
             if pbkdf2_sha256.verify(pw, users[4]):
+                session['is_logged'] = True
+                session['username'] = users[3]
+                print(session)
                 return redirect(url_for('articles'))
             else:
                 return redirect(url_for('login'))
@@ -100,6 +103,42 @@ def login():
         
     else:
         return render_template('login.html')
+
+
+def is_logged_in(f):
+    @wraps(f)
+    def _wraper(*args,**kwargs):
+        if 'is_logged' in session:
+        # if session['is_logged']: 
+            return f(*args,**kwargs)
+        
+        else:
+            flash('UnAuthorized, Please Login', 'danger' )
+            return redirect(url_for('login'))
+    return _wraper
+
+@app.route('/logout')
+@is_logged_in
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+@app.route('/')
+@is_logged_in
+def index():
+    print("Success")
+    # session['test'] = "Gary kim"
+    # session_data = session
+    # print(session_data)
+    # return "TEST"
+    return render_template('home.html')
+
+
+@app.route('/about')
+def about():
+    print("Success")
+    # return "TEST"
+    return render_template('about.html')
 
 @app.route('/articles' )
 def articles():
@@ -181,4 +220,8 @@ def delete(id):
 
 if __name__ == "__main__":
     # app.run(host = '0.0.0.0',port='8080')
+    # session 실행시 필요한 설정
+
+    app.secret_key = 'secretKey123456789'
+    #서버실행
     app.run()
